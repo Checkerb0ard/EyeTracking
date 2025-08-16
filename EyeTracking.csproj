@@ -548,7 +548,7 @@
 		<Compile Include="Fusion\EyeGazeMessage.cs" />
 		<Compile Include="Fusion\EyeTrackingModule.cs" />
 		<Compile Include="Harmony\MirrorPatches.cs" />
-		<Compile Include="Harmony\AnimationRig.cs" />
+		<Compile Include="Harmony\AnimationRigPatches.cs" />
 		<Compile Include="MarrowSDK\AvatarEyeGazeDescriptor.cs" />
 		<Compile Include="Tracking.cs" />
 		<Compile Include="ImplementationManager.cs" />
