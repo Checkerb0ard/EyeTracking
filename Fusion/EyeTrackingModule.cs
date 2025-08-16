@@ -31,6 +31,9 @@ public class EyeTrackingModule : Module
         if (!NetworkInfo.HasServer)
             return;
         
+        if (!ImplementationManager.CurrentImplementation.IsLoaded)
+            return;
+        
         if (Player.RigManager == null)
             return;
         

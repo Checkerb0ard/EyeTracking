@@ -1,4 +1,5 @@
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace EyeTracking.EyeGaze;
 
@@ -186,6 +187,7 @@ internal static class EyeGazeDebugOverlay
         for (int i=0;i<arr.Length;i++) arr[i]=c;
         tex.SetPixels(arr);
         tex.Apply();
+        Object.DontDestroyOnLoad(tex);
         return tex;
     }
     

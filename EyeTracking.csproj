@@ -547,18 +547,21 @@
 		<Compile Include="EyeSolver.cs" />
 		<Compile Include="Fusion\EyeGazeMessage.cs" />
 		<Compile Include="Fusion\EyeTrackingModule.cs" />
-		<Compile Include="Harmony\MirrorPatches.cs" />
 		<Compile Include="Harmony\AnimationRigPatches.cs" />
 		<Compile Include="MarrowSDK\AvatarEyeGazeDescriptor.cs" />
 		<Compile Include="Tracking.cs" />
 		<Compile Include="ImplementationManager.cs" />
 		<Compile Include="Utils.cs" />
-		<Compile Include="VRS\Patches.cs" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <None Remove=".gitignore" />
 	  <None Remove="LICENSE" />
+	  <None Remove="VRS\**" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Remove="VRS\**" />
 	</ItemGroup>
 	
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">

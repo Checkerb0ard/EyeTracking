@@ -7,7 +7,10 @@ public class UnityDefault : EyeGazeImplementation
 {
     public override string Name => "UnityDefault";
     public override string DeviceId => "unity.xr.default";
+    public override bool IsLoaded => _isLoaded;
+    
     private InputDevice _eyeDevice;
+    private bool _isLoaded = false;
     
     // guess work
     private static readonly InputFeatureUsage<float> LeftPupilDiameter = new InputFeatureUsage<float>("LeftPupilDiameter");
@@ -22,21 +25,27 @@ public class UnityDefault : EyeGazeImplementation
         {
             _eyeDevice = devices._items[0];
             Core.Instance.LoggerInstance.Msg($"Eye tracking device found: {_eyeDevice.name}");
+            _isLoaded = true;
         }
         else
         {
             Core.Instance.LoggerInstance.Warning("No eye tracking capable device found.");
+            _isLoaded = false;
             return;
         }
 
         if (!_eyeDevice.isValid)
         {
             Core.Instance.LoggerInstance.Warning("Eye tracking device is not valid.");
+            _isLoaded = false;
         }
     }
 
     public override void Update()
     {
+        if (!_isLoaded)
+            return;
+        
         if (!_eyeDevice.isValid)
             return;
         

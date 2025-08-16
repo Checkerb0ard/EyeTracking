@@ -47,7 +47,5 @@ public class EyeGazeMessage : ModuleMessageHandler
         }
         
         player.RigRefs.RigManager.animationRig.eyeGaze = new Vector4(data.GazeX, data.GazeY, 1, 2);
-        
-        Core.Instance.LoggerInstance.Msg($"Received eye gaze data from player {playerID.SmallID}: {data.GazeX} : {data.GazeY}", ConsoleColor.Cyan);
     }
 }
