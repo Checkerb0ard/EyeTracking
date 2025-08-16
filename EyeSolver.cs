@@ -2,12 +2,6 @@ using UnityEngine;
 
 namespace EyeTracking;
 
-public enum EyeType
-{
-    Left,
-    Right
-}
-
 public static class EyeSolver
 {
     private static readonly Dictionary<int, Quaternion> _neutral = new();
@@ -20,24 +14,9 @@ public static class EyeSolver
     private const float VerticalMultiplier = 4.0f;
     private const float SmoothTime = 0.05f; // Seconds
     
-    public static void ApplyEye(Transform eye, EyeType eyeType)
+    public static void ApplyEye(Transform eye, Vector2 gaze)
     {
         float dt = Time.deltaTime;
-        
-        Vector3 gaze;
-        
-        switch (eyeType)
-        {
-            case EyeType.Left:
-                gaze = Tracking.Data.Eye.Left.Gaze;
-                break;
-            case EyeType.Right:
-                gaze = Tracking.Data.Eye.Right.Gaze;
-                break;
-            default:
-                gaze = Vector3.zero;
-                break;
-        }
         
         int id = eye.GetInstanceID();
         
@@ -59,6 +38,24 @@ public static class EyeSolver
 
         _current[id] = next;
         eye.localRotation = next;
+    }
+
+    public static void ApplyEyeSimple(Transform eye, Vector2 gaze)
+    {
+        int id = eye.GetInstanceID();
+    
+        if (!_neutral.ContainsKey(id))
+        {
+            _neutral[id] = eye.localRotation;
+        }
+    
+        gaze.x = Mathf.Clamp(gaze.x * HorizontalMultiplier, -1f, 1f);
+        gaze.y = Mathf.Clamp(gaze.y * VerticalMultiplier, -1f, 1f);
+    
+        float yaw = gaze.x * MaxYawDeg;
+        float pitch = -gaze.y * MaxPitchDeg;
+    
+        eye.localRotation = _neutral[id] * Quaternion.Euler(pitch, yaw, 0f);
     }
     
     private static Quaternion Smooth(Quaternion current, Quaternion target, float smoothTime, float dt)

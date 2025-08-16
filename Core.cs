@@ -1,4 +1,5 @@
 ﻿using EyeTracking.EyeGaze;
+using EyeTracking.Fusion;
 
 using BoneLib.BoneMenu;
 
@@ -7,6 +8,7 @@ using UnityEngine;
 
 [assembly: MelonInfo(typeof(EyeTracking.Core), "EyeTracking", "1.0.0", "Checkerboard")]
 [assembly: MelonGame("Stress Level Zero", "BONELAB")]
+[assembly: MelonOptionalDependencies("LabFusion")]
 
 namespace EyeTracking;
 
@@ -19,6 +21,8 @@ public class Core : MelonMod
     public static Page RootPage { get; private set; }
     private static BoolElement EnableDebug { get; set; }
     public static Page ImplementationsPage { get; private set; }
+
+    internal static bool HasFusion = false;
     
     public override void OnInitializeMelon()
     {
@@ -29,6 +33,13 @@ public class Core : MelonMod
         
         Category.SaveToFile(false);
         
+        HasFusion = FindMelon("LabFusion", "Lakatrazz") != null;
+        
+        if (HasFusion)
+        {
+            LoadModule();
+        }
+        
         RootPage = Page.Root.CreatePage("Eye Tracking", Color.green);
 #if DEBUG
         EnableDebug = RootPage.CreateBool("Enable Debug", Color.white, false, null);
@@ -37,6 +48,11 @@ public class Core : MelonMod
         
         ImplementationManager.Initialize();
     }
+
+    private static void LoadModule()
+    {
+        LabFusion.SDK.Modules.ModuleManager.RegisterModule<EyeTrackingModule>();
+    }
     
     public override void OnUpdate()
     {
@@ -44,8 +60,13 @@ public class Core : MelonMod
         {
             ImplementationManager.CurrentImplementation.Update();
         }
-    }   
-    
+        
+        if (HasFusion)
+        {
+            EyeTrackingModule.Update();
+        }
+    }
+
     public override void OnGUI()
     {
         if (EnableDebug != null && EnableDebug.Value && ImplementationManager.CurrentImplementation != null)

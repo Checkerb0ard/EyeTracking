@@ -1,8 +1,8 @@
-using System.Collections.Generic;
 using HarmonyLib;
+
 using Il2CppSLZ.Marrow;
+
 using UnityEngine;
-using EyeTracking.Data;
 
 namespace EyeTracking.Harmony;
 
@@ -25,7 +25,7 @@ public class MirrorPatches
         if (leftEye == null || rightEye == null)
             return;
         
-        EyeSolver.ApplyEye(leftEye, EyeType.Left);
-        EyeSolver.ApplyEye(rightEye, EyeType.Right);
+        EyeSolver.ApplyEyeSimple(leftEye, Tracking.Data.Eye.Combined().Gaze);
+        EyeSolver.ApplyEyeSimple(rightEye, Tracking.Data.Eye.Combined().Gaze);
     }
 }
