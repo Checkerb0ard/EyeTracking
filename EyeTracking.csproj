@@ -205,7 +205,7 @@
 			<HintPath>$(BONELAB_DIR)\MelonLoader\Il2CppAssemblies\Il2Cpp__Generated.dll</HintPath>
 		</Reference>
 		<Reference Include="LabFusion">
-		  <HintPath>..\..\SteamLibrary\steamapps\common\BONELAB\Mods\LabFusion.dll</HintPath>
+		  <HintPath>$(BONELAB_DIR)\Mods\LabFusion.dll</HintPath>
 		</Reference>
 		<Reference Include="Unity.Addressables">
 			<HintPath>$(BONELAB_DIR)\MelonLoader\Il2CppAssemblies\Unity.Addressables.dll</HintPath>
