@@ -6,10 +6,10 @@ using UnityEngine;
 
 namespace EyeTracking;
 
-internal static class ImplementationManager
+public static class ImplementationManager
 {
     private static readonly List<EyeGazeImplementation> Implementations = new  List<EyeGazeImplementation>();
-    public static EyeGazeImplementation CurrentImplementation { get; private set; }
+    public static EyeGazeImplementation? CurrentImplementation { get; private set; }
     
     internal static void Initialize()
     {
@@ -75,9 +75,9 @@ internal static class ImplementationManager
 
             if (implementation.Name == Core.ActiveEyeGazeImplementation.Value)
             {
-                implementation.Initialize();
                 Core.Instance.LoggerInstance.Msg($"Loaded Implementation {implementation.Name} as the active Implementation.");
                 CurrentImplementation = implementation;
+                CurrentImplementation.Initialize();
             }
             
             Implementations.Add(implementation);

@@ -2,7 +2,7 @@
 	<PropertyGroup>
 		<TargetFramework>net6.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
-		<Nullable>disable</Nullable>
+		<Nullable>enable</Nullable>
 		<RootNamespace>EyeTracking</RootNamespace>
 		<LangVersion>default</LangVersion>
 		<IsPackable>false</IsPackable>
@@ -10,8 +10,18 @@
 		<FileVersion>1.0.0.0</FileVersion>
 		<NeutralLanguage>en-US</NeutralLanguage>
 		<AssemblyName>EyeTracking</AssemblyName>
-		<LangVersion>latest</LangVersion>
+		<LangVersion>preview</LangVersion>
 		<ImplicitUsings>enable</ImplicitUsings>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<GenerateAssemblyInfo>False</GenerateAssemblyInfo>
+		<DefineConstants>$(DefineConstants);MELONLOADER</DefineConstants>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<GenerateAssemblyInfo>False</GenerateAssemblyInfo>
+		<DefineConstants>$(DefineConstants);MELONLOADER</DefineConstants>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -203,9 +213,6 @@
 		</Reference>
 		<Reference Include="Il2Cpp__Generated">
 			<HintPath>$(BONELAB_DIR)\MelonLoader\Il2CppAssemblies\Il2Cpp__Generated.dll</HintPath>
-		</Reference>
-		<Reference Include="LabFusion">
-		  <HintPath>$(BONELAB_DIR)\Mods\LabFusion.dll</HintPath>
 		</Reference>
 		<Reference Include="Unity.Addressables">
 			<HintPath>$(BONELAB_DIR)\MelonLoader\Il2CppAssemblies\Unity.Addressables.dll</HintPath>
@@ -543,12 +550,69 @@
 		<Compile Include="Data\TrackingData.cs" />
 		<Compile Include="EyeGaze\EyeGazeDebugOverlay.cs" />
 		<Compile Include="EyeGaze\EyeGazeImplementation.cs" />
+		<Compile Include="EyeGaze\OSC\OSC.cs" />
+		<Compile Include="EyeGaze\OSC\OscCore\Debug\Scripts\MonitorToDebugText.cs" />
+		<Compile Include="EyeGaze\OSC\OscCore\Dependencies\BlobHandles\Runtime\Collections\BlobHandleDictionaryMethods.cs" />
+		<Compile Include="EyeGaze\OSC\OscCore\Dependencies\BlobHandles\Runtime\Collections\BlobHandleHashSetMethods.cs" />
+		<Compile Include="EyeGaze\OSC\OscCore\Dependencies\BlobHandles\Runtime\Collections\BlobStringDictionary.cs" />
+		<Compile Include="EyeGaze\OSC\OscCore\Dependencies\BlobHandles\Runtime\Compiler\Il2CppSetOptionAttribute.cs" />
+		<Compile Include="EyeGaze\OSC\OscCore\Dependencies\BlobHandles\Runtime\Structs\BlobHandle.cs" />
+		<Compile Include="EyeGaze\OSC\OscCore\Dependencies\BlobHandles\Runtime\Structs\BlobString.cs" />
+		<Compile Include="EyeGaze\OSC\OscCore\Dependencies\NtpTimestamp\ExtensionMethods.cs" />
+		<Compile Include="EyeGaze\OSC\OscCore\Dependencies\NtpTimestamp\NtpTimestamp.cs" />
+		<Compile Include="EyeGaze\OSC\OscCore\Dependencies\NtpTimestamp\TimeConstants.cs" />
+		<Compile Include="EyeGaze\OSC\OscCore\Scripts\Component\Message Handlers\OscBlobMessageHandler.cs" />
+		<Compile Include="EyeGaze\OSC\OscCore\Scripts\Component\Message Handlers\OscBooleanMessageHandler.cs" />
+		<Compile Include="EyeGaze\OSC\OscCore\Scripts\Component\Message Handlers\OscColorMessageHandler.cs" />
+		<Compile Include="EyeGaze\OSC\OscCore\Scripts\Component\Message Handlers\OscFloat64MessageHandler.cs" />
+		<Compile Include="EyeGaze\OSC\OscCore\Scripts\Component\Message Handlers\OscFloatMessageHandler.cs" />
+		<Compile Include="EyeGaze\OSC\OscCore\Scripts\Component\Message Handlers\OscInt64MessageHandler.cs" />
+		<Compile Include="EyeGaze\OSC\OscCore\Scripts\Component\Message Handlers\OscIntMessageHandler.cs" />
+		<Compile Include="EyeGaze\OSC\OscCore\Scripts\Component\Message Handlers\OscStringMessageHandler.cs" />
+		<Compile Include="EyeGaze\OSC\OscCore\Scripts\Component\Message Handlers\OscVector3MessageHandler.cs" />
+		<Compile Include="EyeGaze\OSC\OscCore\Scripts\Component\OscMessageHandler.cs" />
+		<Compile Include="EyeGaze\OSC\OscCore\Scripts\Component\OscReceiver.cs" />
+		<Compile Include="EyeGaze\OSC\OscCore\Scripts\Component\Output\OscSender.cs" />
+		<Compile Include="EyeGaze\OSC\OscCore\Scripts\Component\Output\PropertyOutput.cs" />
+		<Compile Include="EyeGaze\OSC\OscCore\Scripts\Component\UnityEvents.cs" />
+		<Compile Include="EyeGaze\OSC\OscCore\Scripts\Constant.cs" />
+		<Compile Include="EyeGaze\OSC\OscCore\Scripts\Delegates.cs" />
+		<Compile Include="EyeGaze\OSC\OscCore\Scripts\Enums\AddressType.cs" />
+		<Compile Include="EyeGaze\OSC\OscCore\Scripts\Enums\TypeTag.cs" />
+		<Compile Include="EyeGaze\OSC\OscCore\Scripts\Enums\VectorElementFilters.cs" />
+		<Compile Include="EyeGaze\OSC\OscCore\Scripts\Message\OscMessageValues.AsciiChar.cs" />
+		<Compile Include="EyeGaze\OSC\OscCore\Scripts\Message\OscMessageValues.Blob.cs" />
+		<Compile Include="EyeGaze\OSC\OscCore\Scripts\Message\OscMessageValues.Boolean.cs" />
+		<Compile Include="EyeGaze\OSC\OscCore\Scripts\Message\OscMessageValues.Color32.cs" />
+		<Compile Include="EyeGaze\OSC\OscCore\Scripts\Message\OscMessageValues.cs" />
+		<Compile Include="EyeGaze\OSC\OscCore\Scripts\Message\OscMessageValues.Float.cs" />
+		<Compile Include="EyeGaze\OSC\OscCore\Scripts\Message\OscMessageValues.Float64.cs" />
+		<Compile Include="EyeGaze\OSC\OscCore\Scripts\Message\OscMessageValues.Int.cs" />
+		<Compile Include="EyeGaze\OSC\OscCore\Scripts\Message\OscMessageValues.Int64.cs" />
+		<Compile Include="EyeGaze\OSC\OscCore\Scripts\Message\OscMessageValues.MIDI.cs" />
+		<Compile Include="EyeGaze\OSC\OscCore\Scripts\Message\OscMessageValues.Null.cs" />
+		<Compile Include="EyeGaze\OSC\OscCore\Scripts\Message\OscMessageValues.String.cs" />
+		<Compile Include="EyeGaze\OSC\OscCore\Scripts\Message\OscMessageValues.Timestamp.cs" />
+		<Compile Include="EyeGaze\OSC\OscCore\Scripts\OscActionPair.cs" />
+		<Compile Include="EyeGaze\OSC\OscCore\Scripts\OscAddressSpace.cs" />
+		<Compile Include="EyeGaze\OSC\OscCore\Scripts\OscClient.cs" />
+		<Compile Include="EyeGaze\OSC\OscCore\Scripts\OscParser.cs" />
+		<Compile Include="EyeGaze\OSC\OscCore\Scripts\OscServer.cs" />
+		<Compile Include="EyeGaze\OSC\OscCore\Scripts\OscSocket.cs" />
+		<Compile Include="EyeGaze\OSC\OscCore\Scripts\OscWriter.cs" />
+		<Compile Include="EyeGaze\OSC\OscCore\Scripts\Structs\MidiMessage.cs" />
+		<Compile Include="EyeGaze\OSC\OscCore\Scripts\Utility\ExtensionMethods.cs" />
+		<Compile Include="EyeGaze\OSC\OscCore\Scripts\Utility\OscAddressMethods.cs" />
+		<Compile Include="EyeGaze\OSC\OscCore\Scripts\Utility\Utils.cs" />
 		<Compile Include="EyeGaze\UnityDefault.cs" />
 		<Compile Include="EyeSolver.cs" />
-		<Compile Include="Fusion\EyeGazeMessage.cs" />
-		<Compile Include="Fusion\EyeTrackingModule.cs" />
 		<Compile Include="Harmony\AnimationRigPatches.cs" />
+		<Compile Include="Harmony\AvatarPatches.cs" />
+		<Compile Include="Harmony\EyeAndHeadAnimatorPatch.cs" />
+		<Compile Include="Harmony\MirrorPatches.cs" />
+		<Compile Include="Harmony\RigManagerPatches.cs" />
 		<Compile Include="MarrowSDK\AvatarEyeGazeDescriptor.cs" />
+		<Compile Include="MarrowSDK\EyeGazeData.cs" />
 		<Compile Include="Tracking.cs" />
 		<Compile Include="ImplementationManager.cs" />
 		<Compile Include="Utils.cs" />
@@ -558,13 +622,23 @@
 	  <None Remove=".gitignore" />
 	  <None Remove="LICENSE" />
 	  <None Remove="VRS\**" />
+	  <None Remove="EyeTrackingFusion\**" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <EmbeddedResource Remove="VRS\**" />
+	  <EmbeddedResource Remove="EyeTrackingFusion\**" />
+	  <None Remove="Resources\EyeTrackingFusion.dll" />
+	  <EmbeddedResource Include="Resources\EyeTrackingFusion.dll" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Resources\" />
+	  <Folder Include="Thunderstore\Mods\" />
 	</ItemGroup>
 	
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
 		<Exec Command="COPY &quot;$(TargetPath)&quot; &quot;$(BONELAB_DIR)\Mods&quot;" />
+		<Exec Command="if exist &quot;$(TargetDir)$(TargetName).pdb&quot; COPY &quot;$(TargetDir)$(TargetName).pdb&quot; &quot;$(BONELAB_DIR)\Mods&quot;" />
 	</Target>
 </Project>

@@ -1,12 +1,13 @@
-﻿using EyeTracking.EyeGaze;
-using EyeTracking.Fusion;
+﻿using BoneLib;
+using EyeTracking.EyeGaze;
 
 using BoneLib.BoneMenu;
-
+using BoneLib.Notifications;
+using Il2CppSLZ.Marrow.Utilities;
 using MelonLoader;
 using UnityEngine;
 
-[assembly: MelonInfo(typeof(EyeTracking.Core), "EyeTracking", "1.0.0", "Checkerboard")]
+[assembly: MelonInfo(typeof(EyeTracking.Core), "EyeTracking", "1.0.2", "Checkerboard")]
 [assembly: MelonGame("Stress Level Zero", "BONELAB")]
 [assembly: MelonOptionalDependencies("LabFusion")]
 
@@ -18,18 +19,18 @@ public class Core : MelonMod
     internal static MelonPreferences_Category Category { get; private set; }
     internal static MelonPreferences_Entry<bool> EnableEyeTracking { get; set; }
     internal static MelonPreferences_Entry<string> ActiveEyeGazeImplementation { get; private set; }
-    public static Page RootPage { get; private set; }
-    private static BoolElement EnableDebug { get; set; }
-    public static Page ImplementationsPage { get; private set; }
+    public static Page? RootPage { get; private set; }
+    private static BoolElement? EnableDebug { get; set; }
+    public static Page? ImplementationsPage { get; private set; }
 
-    internal static bool HasFusion = false;
+    public static bool HasFusion = false;
     
     public override void OnInitializeMelon()
     {
         Instance = this;
         Category = MelonPreferences.CreateCategory("EyeTracking", "Eye Tracking Settings");
         EnableEyeTracking = Category.CreateEntry("EnableEyeTracking", true, "Enable Eye Tracking");
-        ActiveEyeGazeImplementation = Category.CreateEntry("ActiveEyeGazeImplementation", "UnityDefault", "Active Eye Gaze Implementation");
+        ActiveEyeGazeImplementation = Category.CreateEntry("ActiveEyeGazeImplementation", "OSC", "Active Eye Gaze Implementation");
         
         Category.SaveToFile(false);
         
@@ -37,21 +38,32 @@ public class Core : MelonMod
         
         if (HasFusion)
         {
-            LoadModule();
+            Utils.LoadAssemblyFromAssembly(Instance.MelonAssembly.Assembly, "EyeTracking.Resources.EyeTrackingFusion.dll")
+                .GetType("EyeTracking.Fusion.ModuleLoader")
+                .GetMethod("LoadModule")
+                .Invoke(null, null);
         }
         
         RootPage = Page.Root.CreatePage("Eye Tracking", Color.green);
+        
 #if DEBUG
         EnableDebug = RootPage.CreateBool("Enable Debug", Color.white, false, null);
 #endif
+        
+        RootPage.CreateFunction("Current Implementation: " + ActiveEyeGazeImplementation.Value, Color.green, () =>
+        {
+            Notifier.Send(new Notification()
+            {
+                ShowTitleOnPopup = true,
+                Title = "hi",
+                Message = $"oh, hello there",
+                Type = NotificationType.Information,
+            });
+        });
+        
         ImplementationsPage = RootPage.CreatePage("Available Implementations", Color.cyan);
         
         ImplementationManager.Initialize();
-    }
-
-    private static void LoadModule()
-    {
-        LabFusion.SDK.Modules.ModuleManager.RegisterModule<EyeTrackingModule>();
     }
     
     public override void OnUpdate()
@@ -59,11 +71,7 @@ public class Core : MelonMod
         if (EnableEyeTracking.Value && ImplementationManager.CurrentImplementation != null)
         {
             ImplementationManager.CurrentImplementation.Update();
-        }
-        
-        if (HasFusion)
-        {
-            EyeTrackingModule.Update();
+            EyeSolver.UpdateBlink();
         }
     }
 

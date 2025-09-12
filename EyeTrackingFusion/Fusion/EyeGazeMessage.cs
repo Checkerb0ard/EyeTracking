@@ -3,22 +3,26 @@ using LabFusion.Network;
 using LabFusion.Network.Serialization;
 using LabFusion.Player;
 using LabFusion.SDK.Modules;
-
+using MelonLoader;
 using UnityEngine;
 
 namespace EyeTracking.Fusion;
 
 public class EyeGazeData : INetSerializable
 {
-    public int? GetSize() => 4 * 2;
+    public int? GetSize() => sizeof(float) * 4;
 
     public float GazeX;
     public float GazeY;
+    public float LeftOpenness;
+    public float RightOpenness;
 
     public void Serialize(INetSerializer serializer)
     {
         serializer.SerializeValue(ref GazeX);
         serializer.SerializeValue(ref GazeY);
+        serializer.SerializeValue(ref LeftOpenness);
+        serializer.SerializeValue(ref RightOpenness);
     }
 }
 
@@ -41,11 +45,8 @@ public class EyeGazeMessage : ModuleMessageHandler
         var data = received.ReadData<EyeGazeData>();
         
         if (player.RigRefs?.RigManager?.animationRig == null)
-        {
-            Core.Instance.LoggerInstance.Error($"Player {playerID} has no animation rig.");
             return;
-        }
-        
-        player.RigRefs.RigManager.animationRig.eyeGaze = new Vector4(data.GazeX, data.GazeY, 1, 2);
+
+        EyeSyncer.SetTargetGaze(player, new Vector2(data.GazeX, data.GazeY), data.LeftOpenness, data.RightOpenness);
     }
 }

@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.XR;
+using UnityEngine.XR.OpenXR;
 
 namespace EyeTracking.EyeGaze;
 
@@ -11,13 +12,13 @@ public class UnityDefault : EyeGazeImplementation
     
     private InputDevice _eyeDevice;
     private bool _isLoaded = false;
-    
-    // guess work
-    private static readonly InputFeatureUsage<float> LeftPupilDiameter = new InputFeatureUsage<float>("LeftPupilDiameter");
-    private static readonly InputFeatureUsage<float> RightPupilDiameter = new InputFeatureUsage<float>("RightPupilDiameter");
 
     public override void Initialize()
     {
+        var eyegaze = OpenXRSettings.Instance.features.First(x => x.name.StartsWith("EyeGazeInteraction"));
+        eyegaze.enabled = true;
+        OpenXRSettings.Instance.ApplySettings();
+        
         var devices = new Il2CppSystem.Collections.Generic.List<InputDevice>();
         InputDevices.GetDevicesWithCharacteristics(InputDeviceCharacteristics.EyeTracking, devices);
 
@@ -66,19 +67,11 @@ public class UnityDefault : EyeGazeImplementation
 
         Tracking.Data.Eye.Left.Openness = leftOpen;
         Tracking.Data.Eye.Right.Openness = rightOpen;
-
-        // has to be supplied by the vendor, Unity does not provide pupil diameter by default. the keys we are using here are common but not guaranteed to be present.
-        if (_eyeDevice.TryGetFeatureValue(LeftPupilDiameter, out float leftPupil))
-            Tracking.Data.Eye.Left.PupilDiameterMm = leftPupil;
-
-        if (_eyeDevice.TryGetFeatureValue(RightPupilDiameter, out float rightPupil))
-            Tracking.Data.Eye.Right.PupilDiameterMm = rightPupil;
-
-        // if no vendor data, set a default value
-        if (Tracking.Data.Eye.Left.PupilDiameterMm <= 0f && Tracking.Data.Eye.Right.PupilDiameterMm <= 0f)
-        {
-            Tracking.Data.Eye.Left.PupilDiameterMm = 4f;
-            Tracking.Data.Eye.Right.PupilDiameterMm = 4f;
-        }
+        
+        Tracking.Data.Eye.Left.PupilDiameterMm = 4f;
+        Tracking.Data.Eye.Right.PupilDiameterMm = 4f;
+        
+        Tracking.Data.Eye.MinDilation = 0f;
+        Tracking.Data.Eye.MaxDilation = 10f;
     }
 }
