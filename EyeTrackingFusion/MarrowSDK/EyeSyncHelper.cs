@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using Il2CppSLZ.Marrow.Pool;
 using LabFusion.Marrow.Integration;
 
 #if !MELONLOADER
@@ -7,9 +6,12 @@ using System.Collections.Generic;
 #endif
 
 #if MELONLOADER
+using Il2CppSLZ.Marrow.Pool;
 using Il2CppSLZ.Marrow;
 using MelonLoader;
 using Guid = Il2CppSystem.Guid;
+using LabFusion.Entities;
+using LabFusion.Utilities;
 #endif
 
 using
@@ -19,8 +21,7 @@ using
         SLZ.
     #endif
         Marrow.Warehouse;
-using LabFusion.Entities;
-using LabFusion.Utilities;
+
 using UnityEngine;
 
 namespace EyeTracking.MarrowSDK
@@ -66,12 +67,14 @@ namespace EyeTracking.MarrowSDK
 
         public void Update()
         {
+#if MELONLOADER
             if (_spawnableReferences == null)
                 return;
             
             if (_animationRig)
                 _spawnableReferences.Root.transform.position =
                     new Vector3(_animationRig!.eyeGaze.x, _animationRig.eyeGaze.y, 0);
+#endif
         }
 
         private void OnSpawnEvent(CrateSpawner cs, GameObject go)
@@ -112,6 +115,7 @@ namespace EyeTracking.MarrowSDK
 
         public void OnDisable()
         {
+#if MELONLOADER
             _rigManagerCached = null;
 
             if (_spawnableReferences == null) return;
@@ -120,6 +124,7 @@ namespace EyeTracking.MarrowSDK
                 PooleeUtilities.RequestDespawn(networkEntity.ID, false);
             else
                 MelonLogger.Warning($"Failed to despawn eye sync (Rig: {_rigManagerCached?.gameObject.name})");
+#endif
         }
         
         // Called from logic underneath the spawnable
@@ -145,5 +150,4 @@ namespace EyeTracking.MarrowSDK
 #endif
         }
     }
-
 }
