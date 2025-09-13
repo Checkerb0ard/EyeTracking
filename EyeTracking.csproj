@@ -616,19 +616,20 @@
 		<Compile Include="Tracking.cs" />
 		<Compile Include="ImplementationManager.cs" />
 		<Compile Include="Utils.cs" />
-		<Compile Include="VRS\Patches.cs" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <None Remove=".gitignore" />
 	  <None Remove="LICENSE" />
 	  <None Remove="EyeTrackingFusion\**" />
+	  <None Remove="VRS\**" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <EmbeddedResource Remove="EyeTrackingFusion\**" />
 	  <None Remove="Resources\EyeTrackingFusion.dll" />
 	  <EmbeddedResource Include="Resources\EyeTrackingFusion.dll" />
+	  <EmbeddedResource Remove="VRS\**" />
 	</ItemGroup>
 
 	<ItemGroup>
