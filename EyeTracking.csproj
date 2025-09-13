@@ -551,7 +551,6 @@
 		<Compile Include="EyeGaze\EyeGazeDebugOverlay.cs" />
 		<Compile Include="EyeGaze\EyeGazeImplementation.cs" />
 		<Compile Include="EyeGaze\OSC\OSC.cs" />
-		<Compile Include="EyeGaze\OSC\OscCore\Debug\Scripts\MonitorToDebugText.cs" />
 		<Compile Include="EyeGaze\OSC\OscCore\Dependencies\BlobHandles\Runtime\Collections\BlobHandleDictionaryMethods.cs" />
 		<Compile Include="EyeGaze\OSC\OscCore\Dependencies\BlobHandles\Runtime\Collections\BlobHandleHashSetMethods.cs" />
 		<Compile Include="EyeGaze\OSC\OscCore\Dependencies\BlobHandles\Runtime\Collections\BlobStringDictionary.cs" />
@@ -593,6 +592,7 @@
 		<Compile Include="EyeGaze\OSC\OscCore\Scripts\Message\OscMessageValues.Null.cs" />
 		<Compile Include="EyeGaze\OSC\OscCore\Scripts\Message\OscMessageValues.String.cs" />
 		<Compile Include="EyeGaze\OSC\OscCore\Scripts\Message\OscMessageValues.Timestamp.cs" />
+		<Compile Include="EyeGaze\OSC\OscCore\Scripts\MonitorToDebugText.cs" />
 		<Compile Include="EyeGaze\OSC\OscCore\Scripts\OscActionPair.cs" />
 		<Compile Include="EyeGaze\OSC\OscCore\Scripts\OscAddressSpace.cs" />
 		<Compile Include="EyeGaze\OSC\OscCore\Scripts\OscClient.cs" />
@@ -616,17 +616,16 @@
 		<Compile Include="Tracking.cs" />
 		<Compile Include="ImplementationManager.cs" />
 		<Compile Include="Utils.cs" />
+		<Compile Include="VRS\Patches.cs" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <None Remove=".gitignore" />
 	  <None Remove="LICENSE" />
-	  <None Remove="VRS\**" />
 	  <None Remove="EyeTrackingFusion\**" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <EmbeddedResource Remove="VRS\**" />
 	  <EmbeddedResource Remove="EyeTrackingFusion\**" />
 	  <None Remove="Resources\EyeTrackingFusion.dll" />
 	  <EmbeddedResource Include="Resources\EyeTrackingFusion.dll" />
