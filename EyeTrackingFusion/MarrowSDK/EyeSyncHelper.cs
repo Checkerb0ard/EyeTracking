@@ -6,6 +6,7 @@ using System.Collections.Generic;
 #endif
 
 #if MELONLOADER
+using EyeTracking.Fusion;
 using Il2CppSLZ.Marrow.Pool;
 using Il2CppSLZ.Marrow;
 using MelonLoader;
@@ -109,7 +110,7 @@ namespace EyeTracking.MarrowSDK
             
             _avatarReferences.Guid.SetValue(_guid);
             _avatarReferences.Guid.ReceiveValue(_guid);
-            _avatarReferences.RequestCrate.Invoke();
+            ContentDownloader.PreloadSyncer(() => _avatarReferences.RequestCrate.Invoke());
 #endif
         }
 
@@ -129,7 +130,7 @@ namespace EyeTracking.MarrowSDK
         
         // Called from logic underneath the spawnable
         [SuppressMessage("Performance", "CA1822:Mark members as static")]
-        public void Spawnable_OnEnable(Transform spawnableRoot, RPCString guidRPCString)
+        public void Spawnable_OnEnable(Transform spawnableRoot, RPCString guidRPCString, OwnershipEvents ownershipEvents)
         {
 #if MELONLOADER
             ApplyGuid();
@@ -140,6 +141,8 @@ namespace EyeTracking.MarrowSDK
                 guidRPCString.SetValue(value);
                 guidRPCString.ReceiveValue(value);
             }
+            
+            ownershipEvents.TakeOwnership();
 #endif
         }
 
