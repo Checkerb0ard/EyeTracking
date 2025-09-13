@@ -26,6 +26,17 @@ public class EyeSyncer
         EyeSyncers.Remove(networkPlayer);
     }
     
+    internal static void Remove(EyeSyncer eyeSyncer)
+    {
+        if (eyeSyncer.NetworkPlayer == null)
+            return;
+        
+        if (!EyeSyncers.ContainsKey(eyeSyncer.NetworkPlayer))
+            return;
+
+        EyeSyncers.Remove(eyeSyncer.NetworkPlayer);
+    }
+    
     internal static bool TryGet(NetworkPlayer networkPlayer, out EyeSyncer eyeSyncer)
     {
         return EyeSyncers.TryGetValue(networkPlayer, out eyeSyncer);
@@ -73,12 +84,9 @@ public class EyeSyncer
     // did this to avoid the client dropping eye data and causing the eyes to snap to the center.
     private void Update()
     {
-        if (NetworkPlayer == null)
-            return;
-        
         if (NetworkPlayer?.RigRefs?.RigManager == null)
         {
-            Remove(NetworkPlayer);
+            Remove(this);
         }
         
         if (NetworkPlayer?.RigRefs?.RigManager?.animationRig == null)
@@ -89,7 +97,8 @@ public class EyeSyncer
         if (AvatarEyeGazeDescriptor?.gameObject.activeSelf == false)
             AvatarEyeGazeDescriptor = NetworkPlayer?.RigRefs?.RigManager?.avatar?.GetComponent<AvatarEyeGazeDescriptor>();
         
-        NetworkPlayer.RigRefs.RigManager.animationRig.eyeGaze = new Vector4(TargetGaze.x, TargetGaze.y, 1, 2);
+        //NetworkPlayer.RigRefs.RigManager.animationRig.eyeGaze = new Vector4(TargetGaze.x, TargetGaze.y, 1, 2);
+        NetworkPlayer.RigRefs.RigManager.animationRig.eyeGaze = Vector4.Lerp(NetworkPlayer.RigRefs.RigManager.animationRig.eyeGaze, new Vector4(TargetGaze.x, TargetGaze.y, 1, 2), EyeSolver.SmoothingSpeed * Time.deltaTime);
         
         if (AvatarEyeGazeDescriptor == null)
             return;
