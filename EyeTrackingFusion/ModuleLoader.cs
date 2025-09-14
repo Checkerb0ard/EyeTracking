@@ -1,4 +1,6 @@
-﻿using HarmonyLib;
+﻿using EyeTracking.MarrowSDK;
+using HarmonyLib;
+using Il2CppInterop.Runtime.Injection;
 using LabFusion.SDK.Modules;
 
 namespace EyeTracking.Fusion;
@@ -8,6 +10,8 @@ public class ModuleLoader
 {
     public static void LoadModule()
     {
+        ClassInjector.RegisterTypeInIl2Cpp<EyeSyncHelper>();
+        
         ModuleManager.RegisterModule<EyeTrackingModule>();
         var harmony = new HarmonyLib.Harmony("eyetracking.fusion");
         harmony.PatchAll();

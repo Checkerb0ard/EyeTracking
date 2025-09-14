@@ -9,7 +9,7 @@ namespace EyeTracking.Fusion;
 public static class ContentDownloader
 {
     private const int SyncerId = 5232917;
-    private const string SyncerBarcode = "EyeTrackingBL.EyeTracking.Spawnable.EyeTrackingRB";
+    //private const string SyncerBarcode = "EyeTrackingBL.EyeTracking.Spawnable.EyeTrackingRB";
 
     private enum DownloadStatus
     {
@@ -32,9 +32,6 @@ public static class ContentDownloader
             case DownloadStatus.Unverified:
             {
                 _status = DownloadStatus.Attempted;
-
-                var barcode = new Barcode(SyncerBarcode);
-
                 // For now, just re-download the spawnable each game load when it's needed by an eye-tracked avatar in Fusion,
                 // it's under 30kb, will stay up-to-date this way, and avoids issues with manual installers not having the
                 // manifest files required for Fusion's auto downloader (which defeats the point of this feature).
