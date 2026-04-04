@@ -49,6 +49,7 @@ namespace EyeTracking.MarrowSDK
 
         private void Update()
         {
+#if MELONLOADER
             if (Core.Instance.SolverManager.EyeSolver.CurrentDescriptor == this)
                 return;
             
@@ -58,6 +59,7 @@ namespace EyeTracking.MarrowSDK
                 EyeSolver.SetBlinkWeight(this);
             }
             */
+#endif
         }
 
 #if UNITY_EDITOR
