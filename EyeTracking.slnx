@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="EyeTracking/EyeTracking.csproj" />
+  <Project Path="EyeTrackingFusionModule/EyeTrackingFusionModule.csproj" />
+</Solution>

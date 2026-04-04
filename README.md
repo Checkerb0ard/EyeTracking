@@ -1,0 +1,4 @@
+# EyeTracking
+
+TODO
+- foveated rendering
