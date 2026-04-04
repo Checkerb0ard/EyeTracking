@@ -328,6 +328,7 @@ namespace EyeTracking.MarrowSDK
 
         private void Update()
         {
+#if MELONLOADER
             if (Core.Instance.SolverManager.FaceSolver.CurrentDescriptor == this)
                 return;
             
@@ -337,6 +338,7 @@ namespace EyeTracking.MarrowSDK
                 FaceSolver.SetFaceWeight(this);
             }
             */
+#endif
         }
 
         public void SetMapping(string fieldName, int blendShapeIndex)
