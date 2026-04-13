@@ -28,6 +28,7 @@ Make sure you always launch Baballonia before launching BONELAB.
 - 1.0.1 - Added fusion sync support and released eye tracking SDK.
 - 1.0.2 - New SDK components that expose eye tracking data for use in the SDK.
 - 1.1.0 - Almost complete rewrite of the mod. Fixed Fusion joining.
+- 1.1.1 - Removed debug logging from Babble.
 
 ## Other
 The mod has with two default eye tracking data sources:

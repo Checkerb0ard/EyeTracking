@@ -7,7 +7,7 @@ internal class Babble : TrackingProvider
     public override string Name => "Babble";
     public override bool IsLoaded => _isLoaded;
     public override bool SupportsEye => true;
-    public override bool SupportsFace => true;
+    public override bool SupportsFace => false;
     
     private bool _isLoaded;
     
@@ -23,7 +23,7 @@ internal class Babble : TrackingProvider
             
             BindEyeAddresses();
             
-#if true
+#if false
             _oscReceiver.Server.AddMonitorCallback((address, values) =>
             {
                 Core.Instance.LoggerInstance.Msg($"OSC Message: {address} - {string.Join(", ", values.ToString())}");
